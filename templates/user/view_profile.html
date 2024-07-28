@@ -1,0 +1,48 @@
+
+{% extends 'user/u_index.html' %}
+{% block body %}
+
+<body><form action="" method="post">
+    <table class="table table-bordeless table-striped hover">
+
+  <tr>
+    <th width="172">Name</th>
+    <td>{{ data['Name'] }}</td>
+  </tr>
+  <tr>
+    <th>Place</th>
+    <td>{{ data['place'] }}</td>
+  </tr>
+  <tr>
+    <th>Post</th>
+    <td>{{ data['post'] }}</td>
+  </tr>
+  <tr>
+    <th>Pin</th>
+    <td>{{ data['Pin'] }}</td>
+  </tr>
+  <tr>
+    <th>District</th>
+    <td>{{ data['District'] }}</td>
+  </tr>
+  <tr>
+    <th>Phone_no</th>
+    <td>{{ data['Phone_no'] }}</td>
+  </tr>
+  <tr>
+    <th>Gender</th>
+        <td>{{ data['Gender'] }}</td>
+
+  </tr>
+  <tr>
+    <th>Email</th>
+    <td>{{ data['Email'] }}</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+      <th><a href="/edit_profile#about" class="btn btn-info">Edit</a></th>
+  </tr>
+</table>
+</form>
+</body>
+{% endblock %}

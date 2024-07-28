@@ -1,0 +1,127 @@
+<!--Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html lang="zxx">
+
+<head>
+	<title>User Signup form</title>
+	<!-- Meta tag Keywords -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8" />
+	<meta name="keywords" content="Validator Signup Form Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements"
+	/>
+	<script>
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+	</script>
+	<!-- Meta tag Keywords -->
+	<!-- css file -->
+	<link rel="stylesheet" href="/static/register/css/style.css" type="text/css" media="all" />
+	<!-- Style-CSS -->
+	<!-- //css file -->
+	<!-- web-fonts -->
+	<link href="//fonts.googleapis.com/css?family=Cuprum:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext,latin-ext,vietnamese"
+	    rel="stylesheet">
+	<!-- //web-fonts -->
+
+</head>
+
+<body>
+	<!-- title -->
+	<h1>
+		<span>U</span>ser
+		<span>S</span>ignup
+		<span>F</span>orm
+	</h1>
+	<!-- //title -->
+	<!-- content -->
+	<div class="sub-main-w3">
+		<form validate="true" action="/signup_post" method="post">
+			<div class="form-group">
+				<label for="exampleInputText">Name</label>
+				<input type="text" class="form-control" name="textfield" id="exampleInputText" placeholder="Enter Name" required pattern="[A-Z//a-z// ]{3,}">
+			</div>
+            <div class="form-group">
+{#				<label for="exampleInputText">Male</label>#}
+{#				<input type="radio" class="form-control" name="name" id="exampleInputText" placeholder="Enter Gender" required>#}
+
+                <label class="form-group">
+        <input type="radio" name="RadioGroup1" value="Male" id="RadioGroup1_0" />
+        Male</label>
+
+      <label>
+        <input type="radio" name="RadioGroup1" value="Female" id="RadioGroup1_1" />
+        Female</label>
+
+
+      <label>
+        <input type="radio" name="RadioGroup1" value="Others" id="RadioGroup1_1" />
+        Others</label>
+			</div>
+            <div class="form-group">
+				<label for="exampleInputText">Place</label>
+				<input type="text" class="form-control" name="textfield2" id="exampleInputText" placeholder="Enter Place" required>
+			</div>
+            <div class="form-group">
+				<label for="exampleInputText">Post</label>
+				<input type="text" class="form-control" name="textfield3" id="exampleInputText" placeholder="Enter Post" required>
+			</div>
+            <div class="form-group">
+				<label for="exampleInputText">Pin</label>
+				<input type="text" class="form-control" name="textfield4" id="exampleInputText" placeholder="Enter Pin" required pattern="[0-9]{6}"maxlength="6">
+			</div>
+            <div class="form-group">
+				<label for="exampleInputText">District</label>
+				<input type="text" class="form-control" name="textfield5" id="exampleInputText" placeholder="Enter District" required pattern="[A-Z//a-z// ]{3,}">
+			</div>
+            <div class="form-group">
+				<label for="exampleInputText">Mobile Number</label>
+				<input type="text" class="form-control" name="textfield6" id="exampleInputText" placeholder="Enter Mobile number" required pattern="[0-9]{10}" maxlength="10">
+			</div>
+			<div class="form-group">
+				<label for="exampleInputEmail1">Email address</label>
+				<input type="email" class="form-control" name="textfield7" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">Password</label>
+				<input maxlength="10" minlength="3" type="password" name="textfield8" class="form-control" id="exampleInputPassword1" placeholder="Password" required >
+			</div>
+			<div class="form-group">
+				<label for="exampleConfirmPassword1">Confirm Password</label>
+				<input type="password" class="form-control" id="exampleConfirmPassword1" name="textfield9" placeholder="Confirm Password" required data-match="password"
+				    data-match-field="#exampleInputPassword1" required >
+			</div>
+			<div class="form-group">
+				<label class="checkbox-inline">
+					<input type="checkbox" value="true" required>I agree to the terms and conditions
+				</label>
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+	<!-- //content -->
+
+	<!-- copyright -->
+	<div class="footer">
+			<a href="http://w3layouts.com">W3layouts</a>
+	</div>
+	<!-- //copyright -->
+
+	<!-- Jquery -->
+	<script src="/static/register/js/jquery-2.2.3.min.js"></script>
+	<!-- //Jquery -->
+	<!-- Jquery -->
+	<script src="/static/register/js/jquery-simple-validator.min.js"></script>
+	<!-- //Jquery -->
+
+</body>
+
+</html>

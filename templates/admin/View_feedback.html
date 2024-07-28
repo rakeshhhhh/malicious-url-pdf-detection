@@ -1,0 +1,25 @@
+{% extends 'admin/index.html' %}
+{% block body %}
+
+<form action="" method="post">
+    <table class="table table-bordeless table-striped hover">
+
+  <tr style="background: gray" >
+    <th>S.no</th>
+    <th>Userinfo</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Feedback</th>
+  </trstyle>
+    {% for i in data %}
+  <tr>
+    <td>&nbsp;{{ loop.index }}</td>
+    <td>&nbsp;{{ i['Name'] }}</td>
+    <td>&nbsp;{{ i['Date'] }}</td>
+    <td>{{ i['Time'] }}&nbsp;</td>
+    <td>{{ i['Feedback'] }}&nbsp;</td>
+  </tr>
+    {% endfor %}
+    </table>
+</form>
+{% endblock %}

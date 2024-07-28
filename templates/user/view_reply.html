@@ -1,0 +1,24 @@
+{% extends 'user/u_index.html' %}
+{% block body %}
+
+<body>
+<form id="form1" name="form1" method="post" action="">
+    <table class="table table-bordeless table-striped hover">
+    <tr style="background:grey">
+
+      <th scope="col">SLNO</th>
+      <th scope="col">DATE</th>
+      <th scope="col">COMPLAINT</th>
+      <th scope="col">REPLY</th>
+    </tr> {% for i in data %}
+    <tr>
+      <td>{{loop.index}}</td>
+      <td>{{i['Date']}} </td>
+      <td>{{i['Complaint']}}</td>
+      <td>{{i['Reply']}}&nbsp;</td>
+        {% endfor %}
+    </tr>
+  </table>
+</form>
+</body>
+{% endblock %}

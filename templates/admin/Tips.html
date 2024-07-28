@@ -1,0 +1,19 @@
+{% extends 'admin/index.html' %}
+{% block body %}
+<form action="/tips_post" method="post">
+    <table class="table table-bordeless table-striped hover">
+
+  <tr>
+    <th>Tips</th>
+    <td><textarea name="textarea" id="textarea" cols="45" rows="5" required class="form-control"></textarea></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><div align="center">
+      <input type="submit" name="button" id="button" value="Send" class="btn btn-success"/>
+    </div></td>
+  </tr>
+   </table>
+</form>
+{% endblock %}
+

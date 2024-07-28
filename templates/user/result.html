@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <link href="static/result.css" rel="stylesheet">
+</head>
+
+<body>
+    <a href="/user_detect" class="go-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-left"><path d="M6 8L2 12L6 16"/><path d="M2 12H22"/></svg>
+    </a>
+    {% if data %}
+    <div class="container" id="result-container">
+        <h1 class="result">Result of Your URL : <span class="iq-font-green iq-fw-8">{{ data.results}}</span></h1>
+
+        {% if data.prediction ==1 %}
+        <h5 class="percentage" style="color: #179726;font-size: 18px;">it has {{data.score|round(4)}} percent chance of
+            being safe</h5>
+        {% else %}
+        <h5 class="percentage" style="color: #179726;font-size: 18px;">it has {{data.score|round(4)}} percent chance of
+            being not safe</h5>
+        {% endif %}
+
+        <h5 class="model-accuracy" style="color: #179726;font-size: 18px;">Accuracy of the model : {{data.accuracy}}
+        </h5>
+
+        <h6 class="url "><a href={{data.url}} target="_blank">{{data.url}} </a></h6>
+        {% if data.prediction == 1%}
+        <h3 class="prediction safe" id="prediction">Website is safe to use...</h3>
+
+        <button class="button" id="button1" role="button" onclick="window.open('{{data.url}}')"
+            target="_blank">Continue</button>
+        {% else %}
+        <h3 class="prediction unsafe" id="prediction">Website is unsafe to use...</h3>
+        <button class="button" id="button2" role="button" onclick="window.open('{{data.url}}')" target="_blank">Still
+            want to Continue</button>
+        {% endif %}
+        {% endif %}
+    </div>
+</body>
+
+</html>
