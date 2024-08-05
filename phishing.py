@@ -1,10 +1,12 @@
+from fileinput import filename
 import os
-import joblib
 import pandas as pd
 import fitz  # PyMuPDF
 import pickle
+import base64
+import nice
 
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, url_for
 from DBConnection import *
 from werkzeug.utils import secure_filename
 
@@ -111,9 +113,16 @@ def result_predict():
 
         # Make prediction
         prediction = model.predict(pdf_features_scaled)
-        result = 'malicious' if prediction[0] == 1 else 'benign'
+        result = 'Malicious' if prediction[0] == 0 else 'Benign'
         
-        return render_template('user/detecter.html', result=f"The uploaded PDF is: {result}")
+        if result == 'Benign':
+            # Read the PDF content
+            pdf_file.seek(0)
+            pdf_content = pdf_file.read()
+            encoded_pdf = base64.b64encode(pdf_content).decode('utf-8')
+            return render_template('user/detecter.html', result=f"The uploaded PDF is: {result}", benign=True, pdf_content=encoded_pdf)
+        else:
+            return render_template('user/detecter.html', result=f"The uploaded PDF is: {result}")
 
     except Exception as e:
         print(f"Error during PDF processing: {e}")
@@ -182,90 +191,7 @@ def change_password_post():
 
 
 
-@app.route('/send_reply/<id>')
-def send_reply(id):
-    if session['lid'] != '':
-        return render_template("admin/send_reply.html",id=id)
-    else:
-        return redirect('/login')
 
-
-@app.route('/send_reply_post',methods=['post'])
-def send_reply_post():
-    id=request.form['cid']
-    reply=request.form['textarea']
-    db=Db()
-    qry="UPDATE `complaint` SET `Reply`='"+reply+"',`Status`='Replied' WHERE `Complaint_id`='"+id+"'"
-    res=db.update(qry)
-    return '''<script>alert("Successfully Replied");window.location='/view_complaints'</script>'''
-
-
-@app.route('/tips')
-def tips():
-    if session['lid'] != '':
-        return render_template("admin/Tips.html")
-    else:
-        return redirect('/login')
-
-@app.route('/tips_post',methods=['post'])
-def tips_post():
-
-    tips=request.form['textarea']
-    db=Db()
-    qry="INSERT INTO `tips`(`Tips`,`Date`)VALUES('"+tips+"',CURDATE())"
-    res=db.insert(qry)
-    return '''<script>alert("Successfully added");window.location='/ahome'</script>'''
-
-
-@app.route('/view_complaints')
-def view_complaints():
-    if session['lid'] != '':
-
-        db=Db()
-        qry="SELECT * FROM Complaint JOIN `user` ON `complaint`.`User_id`=`user`.`Login_id`"
-        res=db.select(qry)
-        return render_template("admin/View_complaint.html",data=res)
-    else:
-        return redirect('/login')
-@app.route('/view_complaint_post',methods=['post'])
-def view_complaints_post():
-    from_date=request.form['textfield']
-    to_date=request.form['textfield2']
-    db = Db()
-    qry = "SELECT * FROM Complaint JOIN `user` ON `complaint`.`User_id`=`user`.`Login_id` WHERE `date` BETWEEN '"+from_date+"' AND '"+to_date+"'"
-    res = db.select(qry)
-    return render_template("admin/View_complaint.html", data=res)
-
-@app.route('/view_feedback')
-def view_feedback():
-    if session['lid'] != '':
-
-        db=Db()
-        qry="SELECT * FROM feedback JOIN `user` ON `feedback`.`User_id`=`user`.`Login_id`"
-        res=db.select(qry)
-        return render_template("admin/View_feedback.html",data=res)
-    else:
-        return redirect('/login')
-
-
-@app.route('/view_tips')
-def view_tips():
-    if session['lid'] != '':
-        db=Db()
-        qry="select * from tips"
-        res=db.select(qry)
-        return render_template("admin/view_tips.html",data=res)
-    else:
-        return redirect('/login')
-@app.route('/delete_tips/<id>')
-def delete_tips(id):
-    if session['lid'] != '':
-        db=Db()
-        qry="DELETE FROM `tips` WHERE `Tip_id`='"+id+"'"
-        res=db.delete(qry)
-        return '''<script>alert("Deleted");window.location='/view_tips'</script>'''
-    else:
-        return redirect('/login')
 
 #########################user
 
@@ -360,61 +286,6 @@ def signup_post():
         return '''<script>alert("success");window.location='/'</script>'''
     else:
         return '''<script>alert("incorrect password");window.location='/'</script>'''
-
-
-@app.route('/user_view_feedback')
-def user_view_feedback():
-    db=Db()
-    qry="SELECT * FROM `feedback` JOIN `user` ON `feedback`.`User_id`=`user`.`Login_id`"
-    res=db.select(qry)
-    return render_template("user/Feedback.html",data=res)
-
-
-@app.route('/Send_complaint')
-def Send_complaint():
-    return render_template("user/Sendcomplaint.html")
-
-@app.route('/Send_complaint_post',methods=['post'])
-def Send_complaint_post():
-    db=Db()
-    complaint=request.form['textarea']
-    qry="INSERT INTO `complaint`(`User_id`,`Complaint`,`Date`,`Time`,`Status`,`Reply`)VALUES('"+str(session['lid'])+"','"+complaint+"',CURDATE(),CURTIME(),'pending','pending')"
-    res=db.insert(qry)
-    return '''<script>alert("success");window.location='/uhome'</script>'''
-
-@app.route('/Send_feedback')
-def Send_feedback():
-    return render_template("user/Sendfeedback.html")
-
-@app.route('/Send_feedback_post',methods=['post'])
-def Send_feedback_post():
-    feedback=request.form['textarea']
-    db=Db()
-    qry="INSERT INTO `feedback`(`User_id`,`Date`,`Time`,`Feedback`)VALUES('"+str(session['lid'])+"',CURDATE(),CURTIME(),'"+feedback+"')"
-    res=db.insert(qry)
-    return '''<script>alert("success");window.location='/uhome'</script>'''
-
-
-@app.route('/View_reply')
-def View_reply():
-    db=Db()
-    qry="SELECT * FROM `complaint`WHERE `User_id`='"+str(session['lid'])+"'"
-    res=db.select(qry)
-    return render_template("user/view_reply.html",data=res)
-
-@app.route('/View_reply_post',methods=['post'])
-def View_reply_post():
-    return "ok"
-
-@app.route('/user_view_tips')
-def user_view_tips():
-    db = Db()
-    qry ="SELECT * FROM `tips`"
-    res = db.select(qry)
-    return render_template("user/view_tips.html",data=res)
-
-
-
 
 
 @app.route('/user_detect', methods=['GET', 'POST'])

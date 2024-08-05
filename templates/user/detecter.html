@@ -4,19 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="This website is develop for identify the safety of url.">
-    <meta name="keywords" content="phishing url,phishing,cyber security,machine learning,classifier,python">
+    <meta name="description" content="This website is developed to identify the safety of URLs.">
+    <meta name="keywords" content="phishing url, phishing, cyber security, machine learning, classifier, python">
     <meta name="author" content="VAIBHAV BICHAVE">
 
     <!-- BootStrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        integrity="sha384-9aIt2nRpC12Uk9gZ9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         
     <link href="static/index2.css" rel="stylesheet">
-    <title>URL detection</title>
-    
+    <title>PDF Detection</title>
 </head>
-
 <body>
     
 <div class="container" id="form-container">
@@ -26,11 +24,18 @@
             <br>
             <form action="/result_predict" method="post" enctype="multipart/form-data">
                 <label style="color: white;" for="pdf-upload">Upload your PDF:</label>
-                <input style="background-color: cornsilk;" type="file" id="pdf_file" name="pdf_file" accept="applications/pdf" required><br>
+                <input style="background-color: cornsilk;" type="file" id="pdf_file" name="pdf_file" accept="application/pdf" required><br>
                 <button type="submit">Detect</button><br>
             </form>   
             {% if result %}
-                <h2 style="color: chartreuse;">{{ result }}</h2>
+                <h2 style="color: chartreuse;">{{ result }}</h2><br>
+                {% if benign %}
+                    <p style="color: cornflowerblue;">Your PDF is Malicious free and is ready to open.</p><br>
+                    <button id="view-pdf-button" class="btn btn-success">View PDF</button>
+                    <div id="pdf-container" style="display:none; margin-top: 20px;">
+                        <embed src="data:application/pdf;base64,{{ pdf_content }}" width="800" height="500" type="application/pdf">
+                    </div>
+                {% endif %}
             {% endif %}
 
             {% if error %}
@@ -53,10 +58,16 @@
     crossorigin="anonymous"></script>
 
 <script>
-    let result = document.getElementById('result-container');
-    let form = document.getElementById('form-container');
-    // result.style.display = 'none';
-</script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const viewPdfButton = document.getElementById('view-pdf-button');
+        const pdfContainer = document.getElementById('pdf-container');
 
+        if (viewPdfButton) {
+            viewPdfButton.addEventListener('click', function() {
+                pdfContainer.style.display = 'block';
+            });
+        }
+    });
+</script>
 </body>
 </html>
